@@ -20,6 +20,15 @@
   <button mat-icon-button class="remove" [disabled]="lock" (click)="removeFeature()"><i class="fas fa-trash"></i>
   </button>
   <img *ngIf="lock" src="assets/img/lock-solid.svg" class="feature__lock"/>
-  <img *ngIf="src"/>
-<!--  <img *ngIf="!src" src="assets/img/lock-solid.svg" />-->
+  <form [formGroup]="formGroup" (dblclick)="file.click()">
+    <img *ngIf="formGroup.get('src')?.value" [src]="formGroup.get('src')?.value"/>
+    <img *ngIf="!formGroup.get('src')?.value" src="assets/img/image-solid.svg"/>
+    <input  type="file" #file style="visibility: hidden;
+    width: 0;
+    height: 0;" (change)="changeImage($event)">
+
+  </form>
+
+
+  <!--  <img *ngIf="!src" src="assets/img/lock-solid.svg" />-->
 </div>

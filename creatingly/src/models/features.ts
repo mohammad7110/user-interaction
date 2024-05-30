@@ -23,6 +23,7 @@ export interface FeatureConfig {
 export interface Feature {
   instanceId: string;
   configs: FeatureConfig;
+  data: any;
   lock: boolean;
   componentId: string;
 

@@ -4,6 +4,7 @@ import {TextInputComponent} from './text-input/text-input.component';
 import {TextAreaInputComponent} from './text-area-input/text-area-input.component';
 import {MaterialModule} from "../../material/material.module";
 import {DirectivesModule} from "../../directives/directives.module";
+import {ReactiveFormsModule} from "@angular/forms";
 
 
 @NgModule({
@@ -14,7 +15,8 @@ import {DirectivesModule} from "../../directives/directives.module";
   imports: [
     CommonModule,
     MaterialModule,
-    DirectivesModule
+    DirectivesModule,
+    ReactiveFormsModule
   ],
   exports: [
     TextInputComponent,

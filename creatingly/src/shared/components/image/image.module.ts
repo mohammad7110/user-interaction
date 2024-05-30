@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ImageComponent } from './image/image.component';
 import {MaterialModule} from "../../material/material.module";
 import {DirectivesModule} from "../../directives/directives.module";
+import {ReactiveFormsModule} from "@angular/forms";
 
 
 
@@ -15,7 +16,8 @@ import {DirectivesModule} from "../../directives/directives.module";
     CommonModule,
     CommonModule,
     MaterialModule,
-    DirectivesModule
+    DirectivesModule,
+    ReactiveFormsModule
   ],
   exports:[
     ImageComponent

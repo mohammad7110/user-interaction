@@ -5,6 +5,7 @@ import {MatButtonModule} from "@angular/material/button";
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatNativeDateModule} from "@angular/material/core";
+import {MatDialogModule} from "@angular/material/dialog";
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import {MatNativeDateModule} from "@angular/material/core";
     MatButtonModule,
     DragDropModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatDialogModule
   ]
 })
 export class MaterialModule {

@@ -1,16 +1,18 @@
 .feature {
   background-color: white;
-  padding: 20px 20px 15px 15px;
+  padding: 30px 20px 15px 15px;
   position: absolute;
 
   box-shadow: 0 2px 1px -1px rgba(0, 0, 0, .2), 0px 1px 1px 0px rgba(0, 0, 0, .14), 0px 1px 3px 0px rgba(0, 0, 0, .12);
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
+
   &:hover {
     border: 1px solid #00bbff;
   }
-  &.feature-lock{
+
+  &.feature-lock {
     &:hover {
       border: 1px solid #ff4081;
     }
@@ -23,7 +25,7 @@
   }
 
   button {
-    &.drag-handler , &.remove {
+    &.drag-handler, &.remove {
 
       position: absolute;
       top: 5px;
@@ -34,28 +36,33 @@
       font-size: 15px;
       background-color: transparent !important;
       border: 0;
-      &[disabled]{
+
+      &[disabled] {
         color: rgba(0, 0, 0, 0.38);
       }
-      .mat-mdc-button-touch-target{
+
+      .mat-mdc-button-touch-target {
         width: inherit;
         height: inherit;
       }
     }
-    &.drag-handler{
+
+    &.drag-handler {
       right: 5px;
       color: #00bbff;
       cursor: move;
 
     }
-    &.remove{
+
+    &.remove {
       cursor: pointer;
       color: #ff4081;
       right: 25px;
     }
   }
 
-  &__lock{
+
+  &__lock {
     position: absolute;
     width: 10%;
     left: 50%;
@@ -67,10 +74,21 @@
 
   }
 
+  form {
+    display: flex;
+    flex-direction: column
+  }
+
 }
 
 @keyframes example {
-  0%   {width: 10%}
-  50%  {width: 15%}
-  100% {width: 10%}
+  0% {
+    width: 10%
+  }
+  50% {
+    width: 15%
+  }
+  100% {
+    width: 10%
+  }
 }

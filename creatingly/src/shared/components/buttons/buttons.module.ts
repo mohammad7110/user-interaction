@@ -5,6 +5,7 @@ import {StrokedButtonComponent} from './stroked-button/stroked-button.component'
 import {RaisedButtonComponent} from './raised-button/raised-button.component';
 import {MaterialModule} from "../../material/material.module";
 import {DirectivesModule} from "../../directives/directives.module";
+import {ReactiveFormsModule} from "@angular/forms";
 
 
 @NgModule({
@@ -16,7 +17,8 @@ import {DirectivesModule} from "../../directives/directives.module";
   imports: [
     CommonModule,
     MaterialModule,
-    DirectivesModule
+    DirectivesModule,
+    ReactiveFormsModule
   ],
   exports: [
     BasicButtonComponent,

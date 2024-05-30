@@ -20,7 +20,8 @@
   <button mat-icon-button class="remove" [disabled]="lock" (click)="removeFeature()"><i class="fas fa-trash"></i>
   </button>
   <img *ngIf="lock" src="assets/img/lock-solid.svg" class="feature__lock"/>
-
-  <label>input</label>
-  <textarea></textarea>
+  <form [formGroup]="formGroup">
+    <label (dblclick)="changeText('label')">{{formGroup.get('label')?.value}}</label>
+    <textarea formControlName="value"></textarea>
+  </form>
 </div>

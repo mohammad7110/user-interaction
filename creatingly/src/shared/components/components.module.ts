@@ -6,12 +6,14 @@ import {CalenderModule} from "./calender/calender.module";
 import {HeadlinesModule} from "./headlines/headlines.module";
 import {ImageModule} from "./image/image.module";
 import {FeatureGeneric} from "./feature-generic/feature-generic.component";
+import {ChangeTextDialogComponent} from './change-text-dialog/change-text-dialog.component';
+import {ReactiveFormsModule} from "@angular/forms";
 
 
 @NgModule({
-  declarations: [FeatureGeneric],
+  declarations: [FeatureGeneric, ChangeTextDialogComponent],
   imports: [
-    CommonModule],
+    CommonModule, ReactiveFormsModule],
   exports: [
     InputsModule,
     ButtonsModule,

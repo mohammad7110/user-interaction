@@ -22,13 +22,11 @@
   <img *ngIf="lock" src="assets/img/lock-solid.svg" class="feature__lock"/>
 
 
+  <form [formGroup]="formGroup">
 
-
-
-  <label>input</label>
-  <input type="text"/>
-
-
+    <label (dblclick)="changeText('label')">{{formGroup.get('label')?.value}}</label>
+    <input type="text" formControlName="value"/>
+  </form>
 
 
 </div>

@@ -7,6 +7,7 @@ import {H4HeadlineComponent} from './h4-headline/h4-headline.component';
 import {ParagraphComponent} from './paragraph/paragraph.component';
 import {MaterialModule} from "../../material/material.module";
 import {DirectivesModule} from "../../directives/directives.module";
+import {ReactiveFormsModule} from "@angular/forms";
 
 
 @NgModule({
@@ -22,7 +23,8 @@ import {DirectivesModule} from "../../directives/directives.module";
     CommonModule,
     CommonModule,
     MaterialModule,
-    DirectivesModule
+    DirectivesModule,
+    ReactiveFormsModule
   ],
   exports: [
     H1HeadlineComponent,

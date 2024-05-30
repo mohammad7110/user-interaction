@@ -1,0 +1,37 @@
+.header {
+  background-color: #00bbff;
+  color: white;
+  padding: 10px 16px;
+  min-width: 300px;
+  font-weight: 500;
+}
+
+.content {
+  padding: 16px;
+
+  input {
+    outline: none !important;
+    padding: 6px 12px;
+    border-radius: 4px;
+    border: 1px solid rgba(0, 0, 0, 0.38);
+    color: rgba(0, 0, 0, 0.87);
+    font-size: 16px;
+  }
+}
+
+.footer {
+  padding: 10px 16px;
+
+  button {
+    background-color: transparent;
+    color: #6b6b6b;
+    padding: 8px 8px;
+    border: 1px solid #6b6b6b;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+}
+
+

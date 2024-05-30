@@ -20,6 +20,8 @@
   <button mat-icon-button class="remove" [disabled]="lock" (click)="removeFeature()"><i class="fas fa-trash"></i>
   </button>
   <img *ngIf="lock" src="assets/img/lock-solid.svg" class="feature__lock"/>
-  <h1>h1-headline works!</h1>
+  <form [formGroup]="formGroup">
+    <h1 (dblclick)="changeText('label')">{{formGroup.get('label')?.value}}</h1>
+  </form>
 
 </div>

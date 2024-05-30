@@ -7,6 +7,7 @@ import {ListSyncMessage} from "./messages/list-sync-message";
 import {MessageType} from "./message-type";
 import {LockFeatureMessage} from "./messages/lock-feature-message";
 import {RemoveFeatureMessage} from "./messages/remove-feature-message";
+import {DataFeatureMessage} from "./messages/data-feature-message";
 
 
 export class Utility {
@@ -40,6 +41,8 @@ export class Utility {
       return new LockFeatureMessage(entry.instanceId, entry.lock);
     if (entry.type === MessageType.REMOVE_FEATURE)
       return new RemoveFeatureMessage(entry.instanceId);
+    if (entry.type === MessageType.DATA_FEATURE)
+      return new DataFeatureMessage(entry.instanceId , entry.data);
 
     console.warn('Not yet supported making origin message Instance: ', entry);
     return null;

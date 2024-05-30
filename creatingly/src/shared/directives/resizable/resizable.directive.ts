@@ -21,7 +21,7 @@ enum ResizeDirection {
 @Directive({
   selector: '[appResizable]'
 })
-export class ResizableDirective implements OnInit{
+export class ResizableDirective implements OnInit {
 
   @Output() resizeEnd = new EventEmitter<{ width: number, height: number, left: number, top: number }>();
   @Output() resizeMove = new EventEmitter<{ width: number, height: number, left: number, top: number }>();
@@ -32,9 +32,9 @@ export class ResizableDirective implements OnInit{
 
   @Input() set resizeDisabled(value: boolean) {
     this._resizeDisabled = value;
-    for(let i = 0 ; i < this.el.nativeElement.children.length ; i++){
-      const element =this.el.nativeElement.children.item(i);
-      if(element && element.id === 'handler'){
+    for (let i = 0; i < this.el.nativeElement.children.length; i++) {
+      const element = this.el.nativeElement.children.item(i);
+      if (element && element.id === 'handler') {
         this.renderer.setStyle(element, 'border', this.resizeDisabled ? '2px solid #ff4081' : '2px solid rgb(0, 187, 255)')
       }
     }
@@ -100,7 +100,7 @@ export class ResizableDirective implements OnInit{
   }
 
   private onMouseDown(event: MouseEvent, position: ResizeDirection): void {
-    if(this.resizeDisabled){
+    if (this.resizeDisabled) {
       return;
     }
     this.resizeStart.emit();
@@ -122,7 +122,7 @@ export class ResizableDirective implements OnInit{
   }
 
   private onMouseMove(event: MouseEvent, position: ResizeDirection): void {
-    if(this.resizeDisabled){
+    if (this.resizeDisabled) {
       return;
     }
     if (!this.resizing) {
@@ -150,8 +150,8 @@ export class ResizableDirective implements OnInit{
         break;
       case ResizeDirection.TOP_LEFT:
         height = this.startHeight - (event.clientY - this.startY);
+        top = this.startTop + (event.clientY - this.startY)
         width = this.startWidth - (event.clientX - this.startX);
-        top = this.startTop + (event.clientY - this.startY);
         left = this.startLeft + (event.clientX - this.startX);
         break;
     }
@@ -166,7 +166,7 @@ export class ResizableDirective implements OnInit{
   }
 
   private onMouseUp(): void {
-    if(this.resizeDisabled){
+    if (this.resizeDisabled) {
       return;
     }
     if (this.resizing) {

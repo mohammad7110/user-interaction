@@ -6,6 +6,11 @@ import {CommunicationService} from "../../../services/communication/communicatio
 import {Packet} from "../../../models/packet";
 import {ConfigFeatureMessage} from "../../../models/messages/config-feature-message";
 import {LockFeatureMessage} from "../../../models/messages/lock-feature-message";
+import {FormControl, FormGroup} from "@angular/forms";
+import {MatDialog} from "@angular/material/dialog";
+import {ChangeTextDialogComponent} from "../change-text-dialog/change-text-dialog.component";
+import {debounceTime} from "rxjs";
+import {DataFeatureMessage} from "../../../models/messages/data-feature-message";
 
 
 @Component({
@@ -15,7 +20,16 @@ import {LockFeatureMessage} from "../../../models/messages/lock-feature-message"
 })
 export class FeatureGeneric {
   @Output() configChange = new EventEmitter<{ config: FeatureConfig, id: string }>();
+  @Output() dataChange = new EventEmitter<any>();
+
   @Output() remove = new EventEmitter();
+
+
+  formGroup = new FormGroup({
+    label: new FormControl('test'),
+    value: new FormControl(''),
+    src : new FormControl(''),
+  })
 
   public id = Utility.generateShortUID();
   public lock: boolean = false;
@@ -27,9 +41,20 @@ export class FeatureGeneric {
   private startX = this.configs.x;
   private startY = this.configs.y;
 
-  constructor(public renderer: Renderer2, public communicationService: CommunicationService, public cdr: ChangeDetectorRef) {
+  constructor(public renderer: Renderer2, public communicationService: CommunicationService, public cdr: ChangeDetectorRef, public dialog: MatDialog) {
     this.communicationService.notification.subscribe(this.receivedNotification.bind(this));
+    this.formGroup.valueChanges.subscribe((res: any) => {
+      const lockMessage = new LockFeatureMessage(this.id, true);
+      this.communicationService.sendMessage(lockMessage);
 
+      const dataMessage = new DataFeatureMessage(this.id, res);
+      this.communicationService.sendMessage(dataMessage)
+      this.dataChange.next(this.formGroup.value);
+    })
+    this.formGroup.valueChanges.pipe(debounceTime(1000)).subscribe(res => {
+      const message = new LockFeatureMessage(this.id, false);
+      this.communicationService.sendMessage(message)
+    })
   }
 
   private receivedNotification(packet: Packet): void {
@@ -40,7 +65,16 @@ export class FeatureGeneric {
       this.cdr.detectChanges();
     } else if (message instanceof LockFeatureMessage && message.instanceId === this.id) {
       this.lock = message.lock;
+      if(this.lock){
+        this.formGroup.disable({emitEvent:false})
+      }else{
+        this.formGroup.enable({emitEvent:false});
+      }
       this.cdr.detectChanges();
+    } else if (message instanceof DataFeatureMessage && message.instanceId === this.id) {
+      this.formGroup.patchValue(message.data, {emitEvent: false});
+      this.dataChange.next(this.formGroup.value);
+
     }
   }
 
@@ -102,6 +136,18 @@ export class FeatureGeneric {
 
   removeFeature(): void {
     this.remove.emit();
+  }
+
+  changeText(label: string) {
+    if (!this.lock) {
+      const control = this.formGroup.get(label);
+      if (control) {
+
+        this.dialog.open(ChangeTextDialogComponent, {data: {control: control, label}}).afterClosed().subscribe(() => {
+
+        })
+      }
+    }
   }
 
 

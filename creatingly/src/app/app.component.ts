@@ -29,7 +29,7 @@ export class AppComponent {
     this.communicationService.notification.subscribe(this.receivedNotification.bind(this));
   }
 
-  selectAction(action: FeatureAction, isNewFeature: boolean, id?: string, configs?: FeatureConfig, lock?: boolean) {
+  selectAction(action: FeatureAction, isNewFeature: boolean, id?: string, configs?: FeatureConfig, lock?: boolean, data?: any) {
     const viewContainerRef = this.dynamicHost.viewContainerRef;
     const componentRef = viewContainerRef.createComponent(action.component);
     if (id) {
@@ -41,12 +41,21 @@ export class AppComponent {
     if (configs) {
       componentRef.instance.configs = configs;
     }
+    if (data) {
+      componentRef.instance.formGroup.patchValue(data, {emitEvent: false});
+    }
     componentRef.instance.configChange.subscribe((featureConfig: { config: FeatureConfig, id: string }) => {
       const item = this.list.find(i => i.instanceId === featureConfig.id);
       if (item) {
         item.configs = featureConfig.config;
       }
     });
+    componentRef.instance.dataChange.subscribe((data: any) => {
+      const item = this.list.find(i => i.instanceId === componentRef.instance.id);
+      if (item) {
+        item.data = data;
+      }
+    })
     componentRef.instance.remove.subscribe(() => {
       const itemIndex = this.list.findIndex(i => i.instanceId === componentRef.instance.id);
       if (itemIndex >= 0) {
@@ -60,7 +69,8 @@ export class AppComponent {
       componentId: action.componentId,
       instanceId: componentRef.instance.id,
       configs: componentRef.instance.configs,
-      lock: componentRef.instance.lock
+      lock: componentRef.instance.lock,
+      data: componentRef.instance.formGroup.value
     }
     this.list.push(feature)
     if (isNewFeature) {
@@ -76,7 +86,7 @@ export class AppComponent {
           res.list.forEach(item => {
             const action = getFeatureById(item.componentId);
             if (action) {
-              this.selectAction(action, false, item.instanceId, item.configs, item.lock)
+              this.selectAction(action, false, item.instanceId, item.configs, item.lock , item.data)
             }
           })
           this.cdr.detectChanges();
@@ -97,7 +107,7 @@ export class AppComponent {
     } else if (message instanceof NewFeatureMessage) {
       const action = getFeatureById(message.item.componentId);
       if (action) {
-        this.selectAction(action, false, message.item.instanceId, message.item.configs, message.item.lock)
+        this.selectAction(action, false, message.item.instanceId, message.item.configs, message.item.lock , message.item.data)
       }
       this.cdr.detectChanges();
     } else if (message instanceof RemoveFeatureMessage) {

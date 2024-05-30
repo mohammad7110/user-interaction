@@ -1,4 +1,14 @@
-import {Directive, ElementRef, EventEmitter, Output, Renderer2} from '@angular/core';
+import {
+  Directive,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  QueryList,
+  Renderer2,
+  ViewChildren
+} from '@angular/core';
 
 
 enum ResizeDirection {
@@ -11,11 +21,28 @@ enum ResizeDirection {
 @Directive({
   selector: '[appResizable]'
 })
-export class ResizableDirective {
+export class ResizableDirective implements OnInit{
 
   @Output() resizeEnd = new EventEmitter<{ width: number, height: number, left: number, top: number }>();
   @Output() resizeMove = new EventEmitter<{ width: number, height: number, left: number, top: number }>();
   @Output() resizeStart = new EventEmitter();
+
+
+  private _resizeDisabled: boolean = false;
+
+  @Input() set resizeDisabled(value: boolean) {
+    this._resizeDisabled = value;
+    for(let i = 0 ; i < this.el.nativeElement.children.length ; i++){
+      const element =this.el.nativeElement.children.item(i);
+      if(element && element.id === 'handler'){
+        this.renderer.setStyle(element, 'border', this.resizeDisabled ? '2px solid #ff4081' : '2px solid rgb(0, 187, 255)')
+      }
+    }
+  }
+
+  get resizeDisabled(): boolean {
+    return this._resizeDisabled;
+  }
 
   private resizing = false;
   private startX: number = 0;
@@ -30,9 +57,10 @@ export class ResizableDirective {
   private mouseUpListener: () => void = () => {
   };
 
+
   constructor(private el: ElementRef, private renderer: Renderer2) {
-    this.createHandles();
   }
+
 
   private createHandles(): void {
     const handles: Array<ResizeDirection> = [ResizeDirection.TOP_LEFT, ResizeDirection.TOP_RIGHT, ResizeDirection.BOTTOM_RIGHT, ResizeDirection.BOTTOM_LEFT];
@@ -41,6 +69,7 @@ export class ResizableDirective {
 
   private createHandle(position: ResizeDirection): void {
     const handle = this.renderer.createElement('span');
+    this.renderer.setAttribute(handle, 'id', 'handler');
     this.renderer.setStyle(handle, 'position', 'absolute');
     this.renderer.setStyle(handle, 'width', '10px');
     this.renderer.setStyle(handle, 'height', '10px');
@@ -49,7 +78,7 @@ export class ResizableDirective {
     this.renderer.setStyle(handle, 'top', position === ResizeDirection.TOP_LEFT || position === ResizeDirection.TOP_RIGHT ? '0' : '100%');
     this.renderer.setStyle(handle, 'left', position === ResizeDirection.BOTTOM_LEFT || position === ResizeDirection.TOP_LEFT ? '0' : '100%');
     this.renderer.setStyle(handle, 'background', 'transparent');
-    this.renderer.setStyle(handle,'border' ,'2px solid rgb(0, 187, 255)')
+    this.renderer.setStyle(handle, 'border', this.resizeDisabled ? '2px solid #ff4081' : '2px solid rgb(0, 187, 255)')
     this.renderer.setStyle(handle, 'cursor', this.getCursor(position));
     this.renderer.setStyle(handle, position, '0');
     this.renderer.appendChild(this.el.nativeElement, handle);
@@ -71,6 +100,9 @@ export class ResizableDirective {
   }
 
   private onMouseDown(event: MouseEvent, position: ResizeDirection): void {
+    if(this.resizeDisabled){
+      return;
+    }
     this.resizeStart.emit();
     event.preventDefault();
     this.resizing = true;
@@ -90,6 +122,9 @@ export class ResizableDirective {
   }
 
   private onMouseMove(event: MouseEvent, position: ResizeDirection): void {
+    if(this.resizeDisabled){
+      return;
+    }
     if (!this.resizing) {
       return;
     }
@@ -131,6 +166,9 @@ export class ResizableDirective {
   }
 
   private onMouseUp(): void {
+    if(this.resizeDisabled){
+      return;
+    }
     if (this.resizing) {
       this.resizing = false;
       this.resizeEnd.emit({
@@ -140,6 +178,11 @@ export class ResizableDirective {
       if (this.mouseMoveListener) this.mouseMoveListener();
       if (this.mouseUpListener) this.mouseUpListener();
     }
+  }
+
+  ngOnInit(): void {
+    this.createHandles();
+
   }
 }
 

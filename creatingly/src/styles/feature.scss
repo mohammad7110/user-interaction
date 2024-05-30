@@ -10,6 +10,11 @@
   &:hover {
     border: 1px solid #00bbff;
   }
+  &.feature-lock{
+    &:hover {
+      border: 1px solid #ff4081;
+    }
+  }
 
   label {
     font-size: 14px;
@@ -18,25 +23,54 @@
   }
 
   button {
-    &.drag-handler {
+    &.drag-handler , &.remove {
 
-      cursor: move;
       position: absolute;
-      right: 5px;
       top: 5px;
       width: 20px;
       height: 20px;
       line-height: 20px;
       padding: 0;
       font-size: 15px;
-      color: #00bbff;
       background-color: transparent !important;
       border: 0;
+      &[disabled]{
+        color: rgba(0, 0, 0, 0.38);
+      }
       .mat-mdc-button-touch-target{
         width: inherit;
         height: inherit;
       }
     }
+    &.drag-handler{
+      right: 5px;
+      color: #00bbff;
+      cursor: move;
+
+    }
+    &.remove{
+      cursor: pointer;
+      color: #ff4081;
+      right: 25px;
+    }
   }
 
+  &__lock{
+    position: absolute;
+    width: 10%;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    animation-name: example;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+
+  }
+
+}
+
+@keyframes example {
+  0%   {width: 10%}
+  50%  {width: 15%}
+  100% {width: 10%}
 }

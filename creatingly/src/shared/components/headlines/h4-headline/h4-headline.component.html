@@ -1,14 +1,25 @@
 <div class="feature" cdkDragBoundary=".app-root__main" cdkDrag (cdkDragMoved)="move($event)"
+     (cdkDragStarted)="dragStart()"
      (cdkDragEnded)="drop($event)"
      [style.left.px]="configs.x"
      [style.top.px]="configs.y"
+     [style.width.px]="configs.width"
+     [style.height.px]="configs.height"
+     [class.feature-lock]="lock"
      appResizable
+     [resizeDisabled]="lock"
      (resizeMove)="onResizeMove($event)"
      (resizeEnd)="onResizeEnd()"
      (resizeStart)="onResizeStart()"
+
+
 >
-  <button mat-icon-button class="drag-handler" cdkDragHandle><i class="fa-regular fa-arrows-up-down-left-right"></i>
+  <button mat-icon-button class="drag-handler" [disabled]="lock" cdkDragHandle><i
+    class="fa-regular fa-arrows-up-down-left-right"></i>
   </button>
+  <button mat-icon-button class="remove" [disabled]="lock" (click)="removeFeature()"><i class="fas fa-trash"></i>
+  </button>
+  <img *ngIf="lock" src="assets/img/lock-solid.svg" class="feature__lock"/>
   <h4>h1-headline works!</h4>
 
 </div>

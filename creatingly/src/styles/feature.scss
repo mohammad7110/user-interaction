@@ -1,0 +1,42 @@
+.feature {
+  background-color: white;
+  padding: 20px 20px 15px 15px;
+  position: absolute;
+
+  box-shadow: 0 2px 1px -1px rgba(0, 0, 0, .2), 0px 1px 1px 0px rgba(0, 0, 0, .14), 0px 1px 3px 0px rgba(0, 0, 0, .12);
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  &:hover {
+    border: 1px solid #00bbff;
+  }
+
+  label {
+    font-size: 14px;
+    margin-bottom: 4px;
+    color: #6b6b6b;
+  }
+
+  button {
+    &.drag-handler {
+
+      cursor: move;
+      position: absolute;
+      right: 5px;
+      top: 5px;
+      width: 20px;
+      height: 20px;
+      line-height: 20px;
+      padding: 0;
+      font-size: 15px;
+      color: #00bbff;
+      background-color: transparent !important;
+      border: 0;
+      .mat-mdc-button-touch-target{
+        width: inherit;
+        height: inherit;
+      }
+    }
+  }
+
+}

@@ -1,0 +1,17 @@
+<div class="app-left-side-bar">
+  <div class="app-left-side-bar__group" *ngFor="let group of features">
+
+    <button mat-icon-button [matTooltip]="group.title"
+            (click)="selectGroup(group )">
+      <i [class]="group.icon"></i>
+    </button>
+    <div class="app-left-side-bar__group--child" *ngIf="selectedGroup && selectedGroup.title === group.title">
+      <button *ngFor="let action of group.children" mat-icon-button [matTooltip]="action.title"
+              (click)="selectAction(action)">
+        <i [class]="action.icon"></i>
+      </button>
+
+    </div>
+  </div>
+</div>
+

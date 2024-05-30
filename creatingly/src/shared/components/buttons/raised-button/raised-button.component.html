@@ -1,0 +1,13 @@
+<div class="feature" cdkDragBoundary=".app-root__main" cdkDrag (cdkDragMoved)="move($event)"
+     (cdkDragEnded)="drop($event)"
+     [style.left.px]="configs.x"
+     [style.top.px]="configs.y"
+     appResizable
+     (resizeMove)="onResizeMove($event)"
+     (resizeEnd)="onResizeEnd()"
+     (resizeStart)="onResizeStart()"
+>
+  <button mat-icon-button class="drag-handler" cdkDragHandle><i class="fa-regular fa-arrows-up-down-left-right"></i>
+  </button>
+  <button>label</button>
+</div>

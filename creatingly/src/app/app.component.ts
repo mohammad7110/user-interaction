@@ -1,14 +1,11 @@
-import {ChangeDetectorRef, Component, Type, ViewChild} from '@angular/core';
+import {ChangeDetectorRef, Component, ViewChild} from '@angular/core';
 import {Feature, FeatureAction, FeatureConfig, getFeatureById} from "../models/features";
 import {DynamicHostDirective} from "../shared/directives/dynamic-host/dynamic-host.directive";
-import {CommunicationService} from "../services/communication/communication.service";
-import {ListRequestMessage} from "../models/messages/list-request-message";
-import {ListSyncMessage} from "../models/messages/list-sync-message";
-import {Packet} from "../models/packet";
-import {ConfigFeatureMessage} from "../models/messages/config-feature-message";
 import {NewFeatureMessage} from "../models/messages/new-feature-message";
-import {Utility} from "../models/utility";
 import {RemoveFeatureMessage} from "../models/messages/remove-feature-message";
+import {MessageService} from "../services/message/message.service";
+import {Message} from "../models/messages/message";
+import {ListSyncMessage} from "../models/messages/list-sync-message";
 
 @Component({
   selector: 'app-root',
@@ -19,14 +16,8 @@ export class AppComponent {
   @ViewChild(DynamicHostDirective, {static: true}) dynamicHost!: DynamicHostDirective;
   public list: Array<Feature> = []
 
-  constructor(private communicationService: CommunicationService, private cdr: ChangeDetectorRef) {
-    this.communicationService.leadership.subscribe(() => {
-      document.title = 'leader'
-    });
-
-    if (!this.communicationService.isLeader)
-      this.activeFollowerTasks();
-    this.communicationService.notification.subscribe(this.receivedNotification.bind(this));
+  constructor(private cdr: ChangeDetectorRef, private messageService: MessageService) {
+    this.messageService.notification.subscribe(this.receivedNotification.bind(this));
   }
 
   selectAction(action: FeatureAction, isNewFeature: boolean, id?: string, configs?: FeatureConfig, lock?: boolean, data?: any) {
@@ -61,7 +52,7 @@ export class AppComponent {
       if (itemIndex >= 0) {
         this.list.splice(itemIndex, 1);
         const message = new RemoveFeatureMessage(componentRef.instance.id);
-        this.communicationService.sendMessage(message);
+        this.messageService.sendMessage(message);
         viewContainerRef.remove(itemIndex)
       }
     });
@@ -78,38 +69,22 @@ export class AppComponent {
     }
   }
 
-  private activeFollowerTasks(): void {
-    const message = new ListRequestMessage();
-    this.communicationService.sendRequest(message)
-      .then((res) => {
-        if (res instanceof ListSyncMessage) {
-          res.list.forEach(item => {
-            const action = getFeatureById(item.componentId);
-            if (action) {
-              this.selectAction(action, false, item.instanceId, item.configs, item.lock , item.data)
-            }
-          })
-          this.cdr.detectChanges();
+
+  private receivedNotification(message: Message): void {
+    if (message instanceof ListSyncMessage) {
+      message.list.forEach(item => {
+        const action = getFeatureById(item.componentId);
+        if (action) {
+          this.selectAction(action, false, item.instanceId, item.configs, item.lock, item.data)
         }
-
       })
-      .catch(() => {
-      });
-
-  }
-
-  private receivedNotification(packet: Packet): void {
-    const message = packet.message;
-    if (message instanceof ListRequestMessage) {
-      const listSyncMessage = new ListSyncMessage(this.list);
-      this.communicationService.responseRequest(packet, listSyncMessage);
-      return;
+      this.cdr.detectChanges();
     } else if (message instanceof NewFeatureMessage) {
       const action = getFeatureById(message.item.componentId);
       if (action) {
-        this.selectAction(action, false, message.item.instanceId, message.item.configs, message.item.lock , message.item.data)
+        this.selectAction(action, false, message.item.instanceId, message.item.configs, message.item.lock, message.item.data)
       }
-      this.cdr.detectChanges();
+      // this.cdr.detectChanges();
     } else if (message instanceof RemoveFeatureMessage) {
       const itemIndex = this.list.findIndex(i => i.instanceId === message.instanceId);
       if (itemIndex >= 0) {
@@ -123,7 +98,8 @@ export class AppComponent {
 
   private sendNewFeature(feature: Feature) {
     const message = new NewFeatureMessage(feature)
-    this.communicationService.sendMessage(message)
+    this.messageService.sendMessage(message)
 
   }
+
 }

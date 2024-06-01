@@ -6,6 +6,7 @@ import {DragDropModule} from '@angular/cdk/drag-drop';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatNativeDateModule} from "@angular/material/core";
 import {MatDialogModule} from "@angular/material/dialog";
+import {MatCheckboxModule} from "@angular/material/checkbox";
 
 
 @NgModule({
@@ -19,7 +20,9 @@ import {MatDialogModule} from "@angular/material/dialog";
     DragDropModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatDialogModule
+    MatDialogModule,
+    MatCheckboxModule,
+
   ]
 })
 export class MaterialModule {

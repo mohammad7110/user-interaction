@@ -1,26 +1,49 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {InputsModule} from "./inputs/inputs.module";
-import {ButtonsModule} from "./buttons/buttons.module";
-import {CalenderModule} from "./calender/calender.module";
-import {HeadlinesModule} from "./headlines/headlines.module";
-import {ImageModule} from "./image/image.module";
 import {FeatureGeneric} from "./feature-generic/feature-generic.component";
 import {ChangeTextDialogComponent} from './change-text-dialog/change-text-dialog.component';
 import {ReactiveFormsModule} from "@angular/forms";
-import {MatCheckboxModule} from "@angular/material/checkbox";
+import {MaterialModule} from "../material/material.module";
+import {DirectivesModule} from "../directives/directives.module";
+import {RaisedButtonComponent} from "./raised-button/raised-button.component";
+import {StrokedButtonComponent} from "./stroked-button/stroked-button.component";
+import {BasicButtonComponent} from "./basic-button/basic-button.component";
+import {TextInputComponent} from "./text-input/text-input.component";
+import {TextAreaInputComponent} from "./text-area-input/text-area-input.component";
+import {LabelComponent} from "./label/label.component";
+import {CalenderComponent} from "./calender/calender.component";
+import {ImageComponent} from "./image/image.component";
 
 
 @NgModule({
-  declarations: [FeatureGeneric, ChangeTextDialogComponent],
-    imports: [
-        CommonModule, ReactiveFormsModule, MatCheckboxModule],
+  declarations: [
+    FeatureGeneric,
+    ChangeTextDialogComponent,
+    BasicButtonComponent,
+    StrokedButtonComponent,
+    RaisedButtonComponent,
+    TextInputComponent,
+    TextAreaInputComponent,
+    LabelComponent,
+    CalenderComponent,
+    ImageComponent
+  ],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    MaterialModule,
+    DirectivesModule
+  ],
   exports: [
-    InputsModule,
-    ButtonsModule,
-    CalenderModule,
-    HeadlinesModule,
-    ImageModule, FeatureGeneric
+    BasicButtonComponent,
+    StrokedButtonComponent,
+    RaisedButtonComponent,
+    TextInputComponent,
+    TextAreaInputComponent,
+    LabelComponent,
+    CalenderComponent,
+    ImageComponent,
+    FeatureGeneric
 
   ]
 })

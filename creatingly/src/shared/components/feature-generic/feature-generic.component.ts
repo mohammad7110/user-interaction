@@ -2,8 +2,6 @@ import {CdkDragEnd, CdkDragMove} from "@angular/cdk/drag-drop";
 import {ChangeDetectorRef, Component, ElementRef, EventEmitter, Output, Renderer2} from "@angular/core";
 import {Utility} from "../../../models/utility";
 import {FeatureConfig} from "../../../models/features";
-import {CommunicationService} from "../../../services/communication/communication.service";
-import {Packet} from "../../../models/packet";
 import {ConfigFeatureMessage} from "../../../models/messages/config-feature-message";
 import {LockFeatureMessage} from "../../../models/messages/lock-feature-message";
 import {FormControl, FormGroup} from "@angular/forms";
@@ -11,6 +9,8 @@ import {MatDialog} from "@angular/material/dialog";
 import {ChangeTextDialogComponent} from "../change-text-dialog/change-text-dialog.component";
 import {debounceTime} from "rxjs";
 import {DataFeatureMessage} from "../../../models/messages/data-feature-message";
+import {MessageService} from "../../../services/message/message.service";
+import {Message} from "../../../models/messages/message";
 
 
 @Component({
@@ -33,7 +33,7 @@ export class FeatureGeneric {
     text: new FormControl('click'),
     label: new FormControl('label'),
     bold: new FormControl(false),
-    color:new FormControl('rgba(0, 0, 0, 0.87)')
+    color: new FormControl('rgba(0, 0, 0, 0.87)')
 
   })
 
@@ -47,24 +47,23 @@ export class FeatureGeneric {
   private startX = this.configs.x;
   private startY = this.configs.y;
 
-  constructor(public renderer: Renderer2, public communicationService: CommunicationService, public cdr: ChangeDetectorRef, public dialog: MatDialog) {
-    this.communicationService.notification.subscribe(this.receivedNotification.bind(this));
+  constructor(public renderer: Renderer2, public messageService: MessageService, public cdr: ChangeDetectorRef, public dialog: MatDialog) {
+    this.messageService.notification.subscribe(this.receivedNotification.bind(this));
     this.formGroup.valueChanges.subscribe((res: any) => {
       const lockMessage = new LockFeatureMessage(this.id, true);
-      this.communicationService.sendMessage(lockMessage);
+      this.messageService.sendMessage(lockMessage);
 
       const dataMessage = new DataFeatureMessage(this.id, res);
-      this.communicationService.sendMessage(dataMessage)
+      this.messageService.sendMessage(dataMessage)
       this.dataChange.next(this.formGroup.value);
     })
     this.formGroup.valueChanges.pipe(debounceTime(1000)).subscribe(res => {
       const message = new LockFeatureMessage(this.id, false);
-      this.communicationService.sendMessage(message)
+      this.messageService.sendMessage(message)
     })
   }
 
-  private receivedNotification(packet: Packet): void {
-    const message = packet.message;
+  private receivedNotification(message: Message): void {
     if (message instanceof ConfigFeatureMessage && message.instanceId === this.id) {
       this.configs = message.config;
       this.configChange.next({config: this.configs, id: this.id});
@@ -95,7 +94,7 @@ export class FeatureGeneric {
       x: this.startX,
       y: this.startY
     });
-    this.communicationService.sendMessage(message)
+    this.messageService.sendMessage(message)
 
   }
 
@@ -106,10 +105,10 @@ export class FeatureGeneric {
     this.renderer.setStyle(event.source.element.nativeElement, 'transform', null);
     event.source.reset();
     const message = new ConfigFeatureMessage(this.id, this.configs);
-    this.communicationService.sendMessage(message)
+    this.messageService.sendMessage(message)
     this.configChange.next({config: this.configs, id: this.id});
     const lockMessage = new LockFeatureMessage(this.id, false);
-    this.communicationService.sendMessage(lockMessage)
+    this.messageService.sendMessage(lockMessage)
   }
 
 
@@ -119,23 +118,23 @@ export class FeatureGeneric {
     this.configs.x = event.left;
     this.configs.y = event.top;
     const message = new ConfigFeatureMessage(this.id, this.configs);
-    this.communicationService.sendMessage(message)
+    this.messageService.sendMessage(message)
     this.configChange.next({config: this.configs, id: this.id});
   }
 
   onResizeEnd() {
     const message = new LockFeatureMessage(this.id, false);
-    this.communicationService.sendMessage(message)
+    this.messageService.sendMessage(message)
   }
 
   onResizeStart() {
     const message = new LockFeatureMessage(this.id, true);
-    this.communicationService.sendMessage(message)
+    this.messageService.sendMessage(message)
   }
 
   dragStart(): void {
     const message = new LockFeatureMessage(this.id, true);
-    this.communicationService.sendMessage(message)
+    this.messageService.sendMessage(message)
     this.startX = this.configs.x;
     this.startY = this.configs.y;
   }

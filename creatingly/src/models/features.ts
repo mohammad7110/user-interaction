@@ -1,13 +1,13 @@
-import {TextInputComponent} from "../shared/components/inputs/text-input/text-input.component";
-import {TextAreaInputComponent} from "../shared/components/inputs/text-area-input/text-area-input.component";
-import {BasicButtonComponent} from "../shared/components/buttons/basic-button/basic-button.component";
-import {RaisedButtonComponent} from "../shared/components/buttons/raised-button/raised-button.component";
-import {StrokedButtonComponent} from "../shared/components/buttons/stroked-button/stroked-button.component";
+import {TextInputComponent} from "../shared/components/text-input/text-input.component";
+import {RaisedButtonComponent} from "../shared/components/raised-button/raised-button.component";
+import {StrokedButtonComponent} from "../shared/components/stroked-button/stroked-button.component";
+import {ImageComponent} from "../shared/components/image/image.component";
+import {TextAreaInputComponent} from "../shared/components/text-area-input/text-area-input.component";
+import {BasicButtonComponent} from "../shared/components/basic-button/basic-button.component";
+import {CalenderComponent} from "../shared/components/calender/calender.component";
+import {LabelComponent} from "../shared/components/label/label.component";
 import {Type} from "@angular/core";
-import {CalenderComponent} from "../shared/components/calender/calender/calender.component";
 
-import {ImageComponent} from "../shared/components/image/image/image.component";
-import {LabelComponent} from "../shared/components/headlines/label/label.component";
 
 export interface FeatureConfig {
   x: number;

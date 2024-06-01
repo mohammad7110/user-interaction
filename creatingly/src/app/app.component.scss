@@ -1,12 +1,12 @@
 .app-root {
   height: 100vh;
   box-sizing: border-box;
-  padding: 10px 10px 10px 60px;
-  background-color: whitesmoke;
+  padding: 10px 10px 10px 90px;
+  background-color: #F7F8FA;
 
   &__left-side-bar {
     position: absolute;
-    width: 50px ;
+    width: 80px ;
     height: 100%;
     top: 0;
     background-color: #00bbff;

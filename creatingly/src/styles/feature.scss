@@ -1,15 +1,24 @@
 .feature {
-  background-color: white;
-  padding: 30px 20px 15px 15px;
+  background-color: transparent;
+  padding: 0;
   position: absolute;
-
-  box-shadow: 0 2px 1px -1px rgba(0, 0, 0, .2), 0px 1px 1px 0px rgba(0, 0, 0, .14), 0px 1px 3px 0px rgba(0, 0, 0, .12);
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
-
+  border: 1px dashed transparent;
+  #handler{
+    display: none;
+  }
   &:hover {
-    border: 1px solid #00bbff;
+    border: 1px dashed #9b9b9b;
+    button {
+      &.drag-handler, &.remove{
+      display: inline-flex;
+      }
+    }
+    #handler{
+      display: unset;
+    }
   }
 
   &.feature-lock {
@@ -36,6 +45,7 @@
       font-size: 15px;
       background-color: transparent !important;
       border: 0;
+      display: none;
 
       &[disabled] {
         color: rgba(0, 0, 0, 0.38);
@@ -76,7 +86,8 @@
 
   form {
     display: flex;
-    flex-direction: column
+    flex-direction: column;
+    flex: 1;
   }
 
 }
@@ -90,5 +101,15 @@
   }
   100% {
     width: 10%
+  }
+}
+.app-left-side-bar__group{
+  .mat-mdc-icon-button{
+    .mat-mdc-button-persistent-ripple{
+      border-radius: 0;
+    }
+    .mat-ripple{
+      border-radius: 0 !important;
+    }
   }
 }

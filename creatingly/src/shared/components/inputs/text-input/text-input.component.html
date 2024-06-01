@@ -23,9 +23,12 @@
 
 
   <form [formGroup]="formGroup">
-
-    <label (dblclick)="changeText('label')">{{formGroup.get('label')?.value}}</label>
-    <input type="text" formControlName="value"/>
+    <input type="text" formControlName="value" (dblclick)="changeText('placeHolder')"
+           placeholder="{{formGroup.get('placeHolder')?.value}}"
+           [style.font-size.px]="formGroup.get('fontSize')?.value"
+           [style.font-weight]="formGroup.get('bold')?.value ? 'bold' : '100'"
+           [style.color]="formGroup.get('color')?.value"
+    />
   </form>
 
 

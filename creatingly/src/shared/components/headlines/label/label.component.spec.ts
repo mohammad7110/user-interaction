@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ParagraphComponent } from './paragraph.component';
+import { LabelComponent } from './label.component';
 
-describe('ParagraphComponent', () => {
-  let component: ParagraphComponent;
-  let fixture: ComponentFixture<ParagraphComponent>;
+describe('LabelComponent', () => {
+  let component: LabelComponent;
+  let fixture: ComponentFixture<LabelComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ParagraphComponent]
+      declarations: [LabelComponent]
     });
-    fixture = TestBed.createComponent(ParagraphComponent);
+    fixture = TestBed.createComponent(LabelComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

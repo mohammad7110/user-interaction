@@ -26,9 +26,15 @@ export class FeatureGeneric {
 
 
   formGroup = new FormGroup({
-    label: new FormControl('test'),
+    placeHolder: new FormControl('input'),
     value: new FormControl(''),
-    src : new FormControl(''),
+    src: new FormControl(''),
+    fontSize: new FormControl(16),
+    text: new FormControl('click'),
+    label: new FormControl('label'),
+    bold: new FormControl(false),
+    color:new FormControl('rgba(0, 0, 0, 0.87)')
+
   })
 
   public id = Utility.generateShortUID();
@@ -65,10 +71,10 @@ export class FeatureGeneric {
       this.cdr.detectChanges();
     } else if (message instanceof LockFeatureMessage && message.instanceId === this.id) {
       this.lock = message.lock;
-      if(this.lock){
-        this.formGroup.disable({emitEvent:false})
-      }else{
-        this.formGroup.enable({emitEvent:false});
+      if (this.lock) {
+        this.formGroup.disable({emitEvent: false})
+      } else {
+        this.formGroup.enable({emitEvent: false});
       }
       this.cdr.detectChanges();
     } else if (message instanceof DataFeatureMessage && message.instanceId === this.id) {
@@ -141,9 +147,21 @@ export class FeatureGeneric {
   changeText(label: string) {
     if (!this.lock) {
       const control = this.formGroup.get(label);
+      const fontSizeControl = this.formGroup.get('fontSize');
+      const fontWeightControl = this.formGroup.get('bold');
+      const colorControl = this.formGroup.get('color')
+
       if (control) {
 
-        this.dialog.open(ChangeTextDialogComponent, {data: {control: control, label}}).afterClosed().subscribe(() => {
+        this.dialog.open(ChangeTextDialogComponent, {
+          data: {
+            control: control,
+            fontSizeControl,
+            fontWeightControl,
+            colorControl,
+            label
+          }
+        }).afterClosed().subscribe(() => {
 
         })
       }

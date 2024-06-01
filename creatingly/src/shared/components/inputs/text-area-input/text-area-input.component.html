@@ -21,7 +21,12 @@
   </button>
   <img *ngIf="lock" src="assets/img/lock-solid.svg" class="feature__lock"/>
   <form [formGroup]="formGroup">
-    <label (dblclick)="changeText('label')">{{formGroup.get('label')?.value}}</label>
-    <textarea formControlName="value"></textarea>
+    <textarea  formControlName="value" (dblclick)="changeText('placeHolder')"
+              placeholder="{{formGroup.get('placeHolder')?.value}}"
+              [style.font-size.px]="formGroup.get('fontSize')?.value"
+               [style.font-weight]="formGroup.get('bold')?.value ? 'bold' : '100'"
+               [style.color]="formGroup.get('color')?.value"
+
+    ></textarea>
   </form>
 </div>

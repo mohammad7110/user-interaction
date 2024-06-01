@@ -1,8 +1,12 @@
 <div class="header">
-  Change {{date.label}}
+  Change {{data.label}} and Font-Size
 </div>
 <div class="content">
-  <input [formControl]="date.control"/>
+  <input [formControl]="data.control"/>
+  <input [formControl]="data.fontSizeControl" type="number"/>
+  <mat-checkbox  labelPosition="before" color="primary" [formControl]="data.fontWeightControl">Bold</mat-checkbox>
+  <input [formControl]="data.colorControl" type="color" style="background-color: transparent;
+    padding: 0;">
 </div>
 
 <div class="footer">

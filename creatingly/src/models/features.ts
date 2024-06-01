@@ -5,13 +5,9 @@ import {RaisedButtonComponent} from "../shared/components/buttons/raised-button/
 import {StrokedButtonComponent} from "../shared/components/buttons/stroked-button/stroked-button.component";
 import {Type} from "@angular/core";
 import {CalenderComponent} from "../shared/components/calender/calender/calender.component";
-import {H1HeadlineComponent} from "../shared/components/headlines/h1-headline/h1-headline.component";
-import {H2HeadlineComponent} from "../shared/components/headlines/h2-headline/h2-headline.component";
-import {H3HeadlineComponent} from "../shared/components/headlines/h3-headline/h3-headline.component";
-import {H4HeadlineComponent} from "../shared/components/headlines/h4-headline/h4-headline.component";
-import {ParagraphComponent} from "../shared/components/headlines/paragraph/paragraph.component";
+
 import {ImageComponent} from "../shared/components/image/image/image.component";
-import {Utility} from "./utility";
+import {LabelComponent} from "../shared/components/headlines/label/label.component";
 
 export interface FeatureConfig {
   x: number;
@@ -31,13 +27,14 @@ export interface Feature {
 
 export interface FeatureGroup {
   title: string;
-  icon: string;
+  icon?: string;
   children: Array<FeatureAction>
 }
 
 export interface FeatureAction {
   title: string;
-  icon: string;
+  icon?: string;
+  class?: string;
   component: Type<any>;
 
   componentId: string;
@@ -45,49 +42,43 @@ export interface FeatureAction {
 
 export const Features: Array<FeatureGroup> = [
   {
-    title: 'cursor',
-    icon: 'fa fa-arrow-pointer',
-    children: []
-  },
-  {
-    title: 'Inputs',
-    icon: 'fa-sharp fa-regular fa-pen-field',
+    title: 'Input',
+    // icon: 'fa-sharp fa-regular fa-pen-field',
     children: [
       {
         title: 'text',
-        icon: 'fa-solid fa-input-text',
+        class: 'text-input',
         component: TextInputComponent,
         componentId: '1'
       },
       {
         title: 'text-area',
-        icon: 'fa-sharp fa-regular fa-input-text',
+        class: 'text-area',
         component: TextAreaInputComponent,
         componentId: '2'
       }
     ]
   },
   {
-    title: 'Buttons',
-    icon: 'fa-solid fa-square-xmark',
+    title: 'Button',
     children: [
       {
         title: 'Basic',
-        icon: 'fa-light fa-xmark',
+        class:'basic-button',
         component: BasicButtonComponent,
         componentId: '3'
 
       },
       {
         title: 'raised',
-        icon: 'fa-solid fa-square-xmark',
+        class: 'raised-button',
         component: RaisedButtonComponent,
         componentId: '4'
 
       },
       {
         title: 'stroked',
-        icon: 'fa-regular fa-square-xmark',
+        class: 'stroked-button',
         component: StrokedButtonComponent,
         componentId: '5'
 
@@ -105,39 +96,14 @@ export const Features: Array<FeatureGroup> = [
     }]
   },
   {
-    title: 'Heading',
-    icon: 'fa-solid fa-heading',
+    title: 'Labels',
+    icon: 'fa-solid fa-tag',
     children: [
-      {
-        title: 'H1',
-        icon: 'fa-solid fa-heading',
-        component: H1HeadlineComponent,
-        componentId: '7'
-      },
-      {
-        title: 'H2',
-        icon: 'fa-solid fa-heading',
-        component: H2HeadlineComponent,
-        componentId: '8'
-      },
-      {
-        title: 'H3',
-        icon: 'fa-solid fa-heading',
-        component: H3HeadlineComponent,
-        componentId: '9'
 
-      },
       {
-        title: 'H4',
-        icon: 'fa-solid fa-heading',
-        component: H4HeadlineComponent,
-        componentId: '10'
-
-      },
-      {
-        title: 'P',
-        icon: 'fa-solid fa-paragraph',
-        component: ParagraphComponent,
+        title: 'Label',
+        icon: 'fa-solid fa-tag',
+        component: LabelComponent,
         componentId: '11'
 
       },

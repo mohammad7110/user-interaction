@@ -1,22 +1,20 @@
 <div class="app-left-side-bar">
-  <div class="app-left-side-bar__group" *ngFor="let group of features">
+  <div class="app-left-side-bar__group" *ngFor="let feature of features">
 
-    <button mat-icon-button [matTooltip]="group.title" [matTooltipPosition]="'right'"
-            (click)="selectGroup(group )">
-      <span *ngIf="!group.icon" class="app-left-side-bar__group--title">{{ group.title }}</span>
-      <i [class]="group.icon" *ngIf="group.icon"></i>
-      <i class="fa-solid fa-caret-right" *ngIf="selectedGroup === group"
-      ></i>
+    <button mat-icon-button [matTooltip]="feature.title" [matTooltipPosition]="'right'"
+            (click)="selectAction(feature)">
+      <span *ngIf="!feature.icon" class="app-left-side-bar__group--title">{{ feature.title }}</span>
+      <i [class]="feature.icon" *ngIf="feature.icon"></i>
     </button>
-    <div class="app-left-side-bar__group--child" *ngIf="selectedGroup && selectedGroup.title === group.title">
-      <button *ngFor="let action of group.children" mat-icon-button [matTooltip]="action.title"
-              [matTooltipPosition]="'right'"
-              (click)="selectAction(action)">
-        <i *ngIf="action.icon" [class]="action.icon"></i>
-        <span *ngIf="action.class" [class]="action.class">{{ action.title }}</span>
-      </button>
+<!--    <div class="app-left-side-bar__group&#45;&#45;child" *ngIf="selectedGroup && selectedGroup.title === group.title">-->
+<!--      <button *ngFor="let action of group.children" mat-icon-button [matTooltip]="action.title"-->
+<!--              [matTooltipPosition]="'right'"-->
+<!--              (click)="selectAction(action)">-->
+<!--        <i *ngIf="action.icon" [class]="action.icon"></i>-->
+<!--        <span *ngIf="action.class" [class]="action.class">{{ action.title }}</span>-->
+<!--      </button>-->
 
-    </div>
+<!--    </div>-->
   </div>
 </div>
 

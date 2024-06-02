@@ -11,7 +11,8 @@
      (resizeMove)="onResizeMove($event)"
      (resizeEnd)="onResizeEnd()"
      (resizeStart)="onResizeStart()"
-
+     [resizeMinWidth]="minWidth"
+     [resizeMinHeight]="minHeight"
 
 >
   <button mat-icon-button class="drag-handler" [disabled]="lock" cdkDragHandle><i
@@ -21,8 +22,15 @@
   </button>
   <img *ngIf="lock" src="assets/img/lock-solid.svg" class="feature__lock"/>
   <form [formGroup]="formGroup" (dblclick)="file.click()">
-    <img *ngIf="formGroup.get('src')?.value" [src]="formGroup.get('src')?.value"/>
-    <img *ngIf="!formGroup.get('src')?.value" src="assets/img/image-solid.svg"/>
+    <img *ngIf="formGroup.get('src')?.value" [src]="formGroup.get('src')?.value"
+         [style.min-height.px]="minHeight"
+         [style.min-width.px]="minWidth"
+
+    />
+    <img *ngIf="!formGroup.get('src')?.value" src="assets/img/image-solid.svg"
+         [style.min-height.px]="minHeight"
+         [style.min-width.px]="minWidth"
+    />
     <input  type="file" #file style="visibility: hidden;
     width: 0;
     height: 0;" (change)="changeImage($event)">

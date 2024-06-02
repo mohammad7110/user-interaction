@@ -5,28 +5,24 @@ import {ChangeTextDialogComponent} from './change-text-dialog/change-text-dialog
 import {ReactiveFormsModule} from "@angular/forms";
 import {MaterialModule} from "../material/material.module";
 import {DirectivesModule} from "../directives/directives.module";
-import {RaisedButtonComponent} from "./raised-button/raised-button.component";
-import {StrokedButtonComponent} from "./stroked-button/stroked-button.component";
-import {BasicButtonComponent} from "./basic-button/basic-button.component";
 import {TextInputComponent} from "./text-input/text-input.component";
 import {TextAreaInputComponent} from "./text-area-input/text-area-input.component";
 import {LabelComponent} from "./label/label.component";
 import {CalenderComponent} from "./calender/calender.component";
 import {ImageComponent} from "./image/image.component";
+import {ButtonComponent} from './button/button.component';
 
 
 @NgModule({
   declarations: [
     FeatureGeneric,
     ChangeTextDialogComponent,
-    BasicButtonComponent,
-    StrokedButtonComponent,
-    RaisedButtonComponent,
     TextInputComponent,
     TextAreaInputComponent,
     LabelComponent,
     CalenderComponent,
-    ImageComponent
+    ImageComponent,
+    ButtonComponent
   ],
   imports: [
     CommonModule,
@@ -35,16 +31,13 @@ import {ImageComponent} from "./image/image.component";
     DirectivesModule
   ],
   exports: [
-    BasicButtonComponent,
-    StrokedButtonComponent,
-    RaisedButtonComponent,
     TextInputComponent,
     TextAreaInputComponent,
     LabelComponent,
     CalenderComponent,
     ImageComponent,
-    FeatureGeneric
-
+    FeatureGeneric,
+    ButtonComponent
   ]
 })
 export class ComponentsModule {

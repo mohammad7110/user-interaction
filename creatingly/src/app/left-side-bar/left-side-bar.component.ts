@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Output, ViewChild} from '@angular/core';
-import {FeatureAction, FeatureGroup, Features} from "../../models/features";
+import { FeatureList, Features} from "../../models/features";
 import {MatMenuTrigger} from "@angular/material/menu";
 
 @Component({
@@ -8,16 +8,16 @@ import {MatMenuTrigger} from "@angular/material/menu";
   styleUrls: ['./left-side-bar.component.scss']
 })
 export class LeftSideBarComponent {
-  @Output() action = new EventEmitter<FeatureAction>();
+  @Output() action = new EventEmitter<FeatureList>();
   features = Features;
-  selectedGroup?: FeatureGroup;
+  selectedGroup?: FeatureList;
   @ViewChild(MatMenuTrigger, {static: true}) menuTrigger !: MatMenuTrigger;
   menuConfig = {
     x: 0,
     y: 0
   }
 
-  selectGroup(group: FeatureGroup) {
+  selectGroup(group: FeatureList) {
     if (group.title === 'cursor' || (this.selectedGroup && this.selectedGroup === group)) {
       this.selectedGroup = undefined;
     } else {
@@ -25,7 +25,7 @@ export class LeftSideBarComponent {
     }
   }
 
-  selectAction(action: FeatureAction): void {
+  selectAction(action: FeatureList): void {
     this.selectedGroup = undefined;
     this.action.emit(action);
   }

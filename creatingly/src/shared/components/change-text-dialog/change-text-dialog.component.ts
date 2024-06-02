@@ -8,13 +8,7 @@ import {FormControl} from "@angular/forms";
   styleUrls: ['./change-text-dialog.component.scss']
 })
 export class ChangeTextDialogComponent {
-  constructor(@Inject(MAT_DIALOG_DATA) public data: {
-    control: FormControl,
-    fontSizeControl: FormControl,
-    fontWeightControl: FormControl,
-    colorControl:FormControl,
-    label: string
-  }, private dialogRef: MatDialogRef<ChangeTextDialogComponent>) {
+  constructor(@Inject(MAT_DIALOG_DATA) public data: Array<{ label: string, control: FormControl }>, private dialogRef: MatDialogRef<ChangeTextDialogComponent>) {
 
   }
 

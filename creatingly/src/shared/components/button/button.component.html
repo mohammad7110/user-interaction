@@ -11,8 +11,8 @@
      (resizeMove)="onResizeMove($event)"
      (resizeEnd)="onResizeEnd()"
      (resizeStart)="onResizeStart()"
-
-
+     [resizeMinWidth]="minWidth"
+     [resizeMinHeight]="minHeight"
 >
   <button mat-icon-button class="drag-handler" [disabled]="lock" cdkDragHandle><i
     class="fa-regular fa-arrows-up-down-left-right"></i>
@@ -20,15 +20,18 @@
   <button mat-icon-button class="remove" [disabled]="lock" (click)="removeFeature()"><i class="fas fa-trash"></i>
   </button>
   <img *ngIf="lock" src="assets/img/lock-solid.svg" class="feature__lock"/>
-
-  <button class="main"
+  <button
     [style.font-size.px]="formGroup.get('fontSize')?.value"
     [style.font-weight]="formGroup.get('bold')?.value ? 'bold' : '100'"
     [style.color]="formGroup.get('color')?.value"
+    [style.background-color]="formGroup.get('backgroundColor')?.value"
 
+    [style.min-height.px]="minHeight"
+    [style.min-width.px]="minWidth"
+    (dblclick)="changeDataConfig(dataConfigs)"
   >
     <form [formGroup]="formGroup">
-      <span (dblclick)="changeText('text')"
+      <span
 
 
       >{{formGroup.get('text')?.value}}</span>

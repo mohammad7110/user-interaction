@@ -1,20 +1,12 @@
 button{
-  background-color: #00bbff;
+  background-color: transparent;
   color: white;
   padding: 8px 8px;
-  border: 0;
   font-size: 14px;
   font-weight: 600;
   border-radius: 4px;
   cursor: pointer;
   width: 100%;
   height: 100%;
-  &.main {
-
-    min-width: 100px;
-    min-height: 50px;
-  }
-  &:hover{
-    background-color: #058fc1;
-  }
+  border: 1px solid;
 }

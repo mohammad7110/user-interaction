@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, Renderer2} from '@angular/core';
+import { Component, Renderer2} from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
 import {FeatureGeneric} from "../feature-generic/feature-generic.component";
 import {MessageService} from "../../../services/message/message.service";
@@ -9,11 +9,12 @@ import {MessageService} from "../../../services/message/message.service";
   styleUrls: ['./image.component.scss']
 })
 export class ImageComponent extends FeatureGeneric {
-
-  constructor(public override renderer: Renderer2, public override messageService: MessageService, public override cdr: ChangeDetectorRef,
+  minWidth = 60;
+  minHeight = 60;
+  constructor(public override renderer: Renderer2, public override messageService: MessageService,
               public override dialog: MatDialog
   ) {
-    super(renderer, messageService, cdr, dialog);
+    super(renderer, messageService, dialog);
   }
 
   changeImage($event: any) {

@@ -26,6 +26,8 @@ export class ResizableDirective implements OnInit {
   @Output() resizeEnd = new EventEmitter<{ width: number, height: number, left: number, top: number }>();
   @Output() resizeMove = new EventEmitter<{ width: number, height: number, left: number, top: number }>();
   @Output() resizeStart = new EventEmitter();
+  @Input() resizeMinWidth: number | undefined;
+  @Input() resizeMinHeight: number | undefined;
 
 
   private _resizeDisabled: boolean = false;
@@ -135,30 +137,54 @@ export class ResizableDirective implements OnInit {
     let left = this.startLeft;
     switch (position) {
       case ResizeDirection.BOTTOM_RIGHT:
-        height = this.startHeight + (event.clientY - this.startY);
-        width = this.startWidth + (event.clientX - this.startX);
+        if (!this.resizeMinHeight || (this.startHeight + (event.clientY - this.startY)) >= this.resizeMinHeight) {
+          this.startHeight = this.startHeight + (event.clientY - this.startY);
+          this.startY = event.y;
+        }
+        if (!this.resizeMinWidth || (this.startWidth + (event.clientX - this.startX)) >= this.resizeMinWidth) {
+          this.startWidth = this.startWidth + (event.clientX - this.startX);
+          this.startX = event.x;
+        }
         break;
       case ResizeDirection.BOTTOM_LEFT:
-        height = this.startHeight + (event.clientY - this.startY);
-        width = this.startWidth - (event.clientX - this.startX);
-        left = this.startLeft + (event.clientX - this.startX);
+        if (!this.resizeMinHeight || this.startHeight + (event.clientY - this.startY) >= this.resizeMinHeight) {
+          this.startHeight = this.startHeight + (event.clientY - this.startY);
+          this.startY = event.y;
+        }
+        if (!this.resizeMinWidth || (this.startWidth - (event.clientX - this.startX)) >= this.resizeMinWidth) {
+          this.startWidth = this.startWidth - (event.clientX - this.startX);
+          this.startLeft = this.startLeft + (event.clientX - this.startX);
+          this.startX = event.x;
+        }
         break;
       case ResizeDirection.TOP_RIGHT:
-        height = this.startHeight - (event.clientY - this.startY);
-        width = this.startWidth + (event.clientX - this.startX);
-        top = this.startTop + (event.clientY - this.startY);
+        if (!this.resizeMinHeight || this.startHeight - (event.clientY - this.startY) >= this.resizeMinHeight) {
+          this.startHeight = this.startHeight - (event.clientY - this.startY);
+          this.startTop = this.startTop + (event.clientY - this.startY);
+          this.startY = event.y;
+        }
+        if (!this.resizeMinWidth || (this.startWidth + (event.clientX - this.startX)) >= this.resizeMinWidth) {
+          this.startWidth = this.startWidth + (event.clientX - this.startX);
+          this.startX = event.x;
+        }
         break;
       case ResizeDirection.TOP_LEFT:
-        height = this.startHeight - (event.clientY - this.startY);
-        top = this.startTop + (event.clientY - this.startY)
-        width = this.startWidth - (event.clientX - this.startX);
-        left = this.startLeft + (event.clientX - this.startX);
+        if (!this.resizeMinHeight || this.startHeight - (event.clientY - this.startY) >= this.resizeMinHeight) {
+          this.startHeight = this.startHeight - (event.clientY - this.startY);
+          this.startTop = this.startTop + (event.clientY - this.startY);
+          this.startY = event.y;
+        }
+        if (!this.resizeMinWidth || (this.startWidth - (event.clientX - this.startX)) >= this.resizeMinWidth) {
+          this.startWidth = this.startWidth - (event.clientX - this.startX);
+          this.startLeft = this.startLeft + (event.clientX - this.startX);
+          this.startX = event.x;
+        }
         break;
     }
-    this.renderer.setStyle(this.el.nativeElement, 'left', `${left}px`);
-    this.renderer.setStyle(this.el.nativeElement, 'top', `${top}px`);
-    this.renderer.setStyle(this.el.nativeElement, 'width', `${width}px`);
-    this.renderer.setStyle(this.el.nativeElement, 'height', `${height}px`);
+    this.renderer.setStyle(this.el.nativeElement, 'left', `${this.startLeft}px`);
+    this.renderer.setStyle(this.el.nativeElement, 'top', `${this.startTop}px`);
+    this.renderer.setStyle(this.el.nativeElement, 'width', `${this.startWidth}px`);
+    this.renderer.setStyle(this.el.nativeElement, 'height', `${this.startHeight}px`);
     this.resizeMove.emit({
       width: this.el.nativeElement.offsetWidth, height: this.el.nativeElement.offsetHeight,
       top: this.el.nativeElement.offsetTop, left: this.el.nativeElement.offsetLeft
@@ -179,6 +205,7 @@ export class ResizableDirective implements OnInit {
       if (this.mouseUpListener) this.mouseUpListener();
     }
   }
+
 
   ngOnInit(): void {
     this.createHandles();

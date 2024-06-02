@@ -1,12 +1,10 @@
 import {TextInputComponent} from "../shared/components/text-input/text-input.component";
-import {RaisedButtonComponent} from "../shared/components/raised-button/raised-button.component";
-import {StrokedButtonComponent} from "../shared/components/stroked-button/stroked-button.component";
 import {ImageComponent} from "../shared/components/image/image.component";
 import {TextAreaInputComponent} from "../shared/components/text-area-input/text-area-input.component";
-import {BasicButtonComponent} from "../shared/components/basic-button/basic-button.component";
 import {CalenderComponent} from "../shared/components/calender/calender.component";
 import {LabelComponent} from "../shared/components/label/label.component";
 import {Type} from "@angular/core";
+import {ButtonComponent} from "../shared/components/button/button.component";
 
 
 export interface FeatureConfig {
@@ -25,114 +23,55 @@ export interface Feature {
 
 }
 
-export interface FeatureGroup {
+export interface FeatureList {
   title: string;
   icon?: string;
-  children: Array<FeatureAction>
-}
 
-export interface FeatureAction {
-  title: string;
-  icon?: string;
-  class?: string;
   component: Type<any>;
-
   componentId: string;
+
 }
 
-export const Features: Array<FeatureGroup> = [
+export const Features: Array<FeatureList> = [
   {
     title: 'Input',
-    // icon: 'fa-sharp fa-regular fa-pen-field',
-    children: [
-      {
-        title: 'text',
-        class: 'text-input',
-        component: TextInputComponent,
-        componentId: '1'
-      },
-      {
-        title: 'text-area',
-        class: 'text-area',
-        component: TextAreaInputComponent,
-        componentId: '2'
-      }
-    ]
+    // class: 'text-input',
+    component: TextInputComponent,
+    componentId: '1',
+  }, {
+    title: 'Text-Area',
+    // class: 'text-area',
+    component: TextAreaInputComponent,
+    componentId: '2'
   },
   {
     title: 'Button',
-    children: [
-      {
-        title: 'Basic',
-        class:'basic-button',
-        component: BasicButtonComponent,
-        componentId: '3'
-
-      },
-      {
-        title: 'raised',
-        class: 'raised-button',
-        component: RaisedButtonComponent,
-        componentId: '4'
-
-      },
-      {
-        title: 'stroked',
-        class: 'stroked-button',
-        component: StrokedButtonComponent,
-        componentId: '5'
-
-      }
-    ]
+    // class: 'raised-button',
+    component: ButtonComponent,
+    componentId: '3'
   },
   {
     title: 'calender',
-    icon: 'fa-solid fa-calendar-days',
-    children: [{
-      title: 'calender',
-      icon: 'fa-solid fa-calendar-days',
-      componentId: '6',
-      component: CalenderComponent
-    }]
+    // icon: 'fa-solid fa-calendar-days',
+    componentId: '4',
+    component: CalenderComponent
   },
   {
-    title: 'Labels',
-    icon: 'fa-solid fa-tag',
-    children: [
-
-      {
-        title: 'Label',
-        icon: 'fa-solid fa-tag',
-        component: LabelComponent,
-        componentId: '11'
-
-      },
-    ]
+    title: 'Label',
+    // icon: 'fa-solid fa-tag',
+    component: LabelComponent,
+    componentId: '5'
   },
   {
     title: 'Image',
-    icon: 'fa-solid fa-image',
-    children: [
-      {
-        title: 'Image',
-        icon: 'fa-solid fa-image',
-        component: ImageComponent,
-        componentId: '12'
-
-      },
-    ]
+    // icon: 'fa-solid fa-image',
+    component: ImageComponent,
+    componentId: '6'
   }
 ]
 
 
-export const getFeatureById: (id: string) => undefined | FeatureAction = (id: string) => {
-  let featureAction = undefined;
-  Features.forEach(group => {
-    const item = group.children.find(action => action.componentId === id);
-    if (item) {
-      featureAction = item;
-    }
-  });
-  return featureAction;
+export const getFeatureById: (id: string) => undefined | FeatureList = (id: string) => {
+  return Features.find(item => item.componentId === id)
 
 }

@@ -1,5 +1,5 @@
-import {ChangeDetectorRef, Component, ViewChild} from '@angular/core';
-import {Feature, FeatureAction, FeatureConfig, getFeatureById} from "../models/features";
+import { Component, ViewChild} from '@angular/core';
+import {Feature, FeatureConfig, FeatureList, getFeatureById} from "../models/features";
 import {DynamicHostDirective} from "../shared/directives/dynamic-host/dynamic-host.directive";
 import {NewFeatureMessage} from "../models/messages/new-feature-message";
 import {RemoveFeatureMessage} from "../models/messages/remove-feature-message";
@@ -16,11 +16,11 @@ export class AppComponent {
   @ViewChild(DynamicHostDirective, {static: true}) dynamicHost!: DynamicHostDirective;
   public list: Array<Feature> = []
 
-  constructor(private cdr: ChangeDetectorRef, private messageService: MessageService) {
+  constructor( private messageService: MessageService) {
     this.messageService.notification.subscribe(this.receivedNotification.bind(this));
   }
 
-  selectAction(action: FeatureAction, isNewFeature: boolean, id?: string, configs?: FeatureConfig, lock?: boolean, data?: any) {
+  selectAction(action: FeatureList, isNewFeature: boolean, id?: string, configs?: FeatureConfig, lock?: boolean, data?: any) {
     const viewContainerRef = this.dynamicHost.viewContainerRef;
     const componentRef = viewContainerRef.createComponent(action.component);
     if (id) {
@@ -78,19 +78,16 @@ export class AppComponent {
           this.selectAction(action, false, item.instanceId, item.configs, item.lock, item.data)
         }
       })
-      this.cdr.detectChanges();
     } else if (message instanceof NewFeatureMessage) {
       const action = getFeatureById(message.item.componentId);
       if (action) {
         this.selectAction(action, false, message.item.instanceId, message.item.configs, message.item.lock, message.item.data)
       }
-      // this.cdr.detectChanges();
     } else if (message instanceof RemoveFeatureMessage) {
       const itemIndex = this.list.findIndex(i => i.instanceId === message.instanceId);
       if (itemIndex >= 0) {
         this.list.splice(itemIndex, 1);
         this.dynamicHost.viewContainerRef.remove(itemIndex);
-        this.cdr.detectChanges();
       }
     }
   }

@@ -9,17 +9,32 @@
 .content {
   padding: 16px;
 
-  input {
-    outline: none !important;
-    padding: 6px 12px;
-    border-radius: 4px;
-    border: 1px solid rgba(0, 0, 0, 0.38);
-    color: rgba(0, 0, 0, 0.87);
-    font-size: 16px;
-    display: block;
-    margin: 14px 0;
-    width: 100%;
-    box-sizing: border-box;
+  .item {
+    display: flex;
+    align-items: center;
+
+    label {
+      width: 200px;
+      margin-right: 10px;
+      color: #656565;
+    }
+
+    input {
+      outline: none !important;
+      padding: 6px 12px;
+      border-radius: 4px;
+      border: 1px solid rgba(0, 0, 0, 0.38);
+      color: rgba(0, 0, 0, 0.87);
+      font-size: 16px;
+      display: block;
+      margin: 14px 0;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    mat-checkbox {
+      width: 100%;
+    }
   }
 }
 
@@ -37,5 +52,7 @@
     cursor: pointer;
   }
 }
+
+
 
 

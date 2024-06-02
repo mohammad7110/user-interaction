@@ -11,6 +11,8 @@
      (resizeMove)="onResizeMove($event)"
      (resizeEnd)="onResizeEnd()"
      (resizeStart)="onResizeStart()"
+     [resizeMinWidth]="minWidth"
+     [resizeMinHeight]="minHeight"
 
 
 >
@@ -23,10 +25,14 @@
 
 
   <form [formGroup]="formGroup">
-    <input type="text" formControlName="value" (dblclick)="changeText('placeHolder')"
+    <input type="text" formControlName="value" (dblclick)="changeDataConfig(dataConfigs)"
            placeholder="{{formGroup.get('placeHolder')?.value}}"
            [style.font-size.px]="formGroup.get('fontSize')?.value"
            [style.font-weight]="formGroup.get('bold')?.value ? 'bold' : '100'"
+           [style.min-height.px]="minHeight"
+           [style.min-width.px]="minWidth"
+           [style.background-color]="formGroup.get('backgroundColor')?.value"
+
            [style.color]="formGroup.get('color')?.value"
     />
   </form>

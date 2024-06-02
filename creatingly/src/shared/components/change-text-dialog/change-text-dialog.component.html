@@ -1,12 +1,39 @@
 <div class="header">
-  Change {{data.label}} and Font-Size
+  config
 </div>
 <div class="content">
-  <input [formControl]="data.control"/>
-  <input [formControl]="data.fontSizeControl" type="number"/>
-  <mat-checkbox  labelPosition="before" color="primary" [formControl]="data.fontWeightControl">Bold</mat-checkbox>
-  <input [formControl]="data.colorControl" type="color" style="background-color: transparent;
-    padding: 0;">
+  <ng-container *ngFor="let item of data">
+
+    <div *ngIf="item.label === 'text' || item.label === 'label' || item.label === 'placeHolder'" class="item">
+      <label>{{item.label}}</label>
+      <input [formControl]="item.control"/>
+    </div>
+    <div *ngIf="item.label === 'font-size'" class="item">
+      <label>{{item.label}}</label>
+      <input [formControl]="item.control" type="number"/>
+    </div>
+    <div *ngIf="item.label === 'bold'" class="item">
+      <label>{{item.label}}</label>
+
+      <mat-checkbox labelPosition="before" color="primary" [formControl]="item.control"></mat-checkbox>
+    </div>
+<!--    <div *ngIf="item.label === 'border-width' || item.label  === 'border-color'" class="item">-->
+<!--      <label *ngIf="item.label === 'border-width'">border</label>-->
+<!--      <input [formControl]="item.control" *ngIf="item.label === 'border-width'" type="number"/>-->
+<!--      <input [formControl]="item.control" *ngIf="item.label === 'border-color'" type="color" style="background-color: transparent;-->
+<!--      padding: 0;"/>-->
+<!--    </div>-->
+    <div *ngIf="item.label === 'color' || item.label  === 'backgroundColor'" class="item">
+      <label>{{item.label}}</label>
+      <input [formControl]="item.control" type="color" style="background-color: transparent;
+      padding: 0;"/>
+    </div>
+  </ng-container>
+
+  <!--    <input [formControl]="data.control"/>-->
+  <!--    <input [formControl]="data.fontSizeControl" type="number"/>-->
+  <!--    <input [formControl]="data.colorControl" type="color" style="background-color: transparent;-->
+  <!--      padding: 0;">-->
 </div>
 
 <div class="footer">

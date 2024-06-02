@@ -1,5 +1,5 @@
 import {CdkDragEnd, CdkDragMove} from "@angular/cdk/drag-drop";
-import {ChangeDetectorRef, Component, ElementRef, EventEmitter, Output, Renderer2} from "@angular/core";
+import {Component, ElementRef, EventEmitter, Output, Renderer2} from "@angular/core";
 import {Utility} from "../../../models/utility";
 import {FeatureConfig} from "../../../models/features";
 import {ConfigFeatureMessage} from "../../../models/messages/config-feature-message";
@@ -33,9 +33,13 @@ export class FeatureGeneric {
     text: new FormControl('click'),
     label: new FormControl('label'),
     bold: new FormControl(false),
-    color: new FormControl('rgba(0, 0, 0, 0.87)')
+    color: new FormControl('rgba(0, 0, 0, 0.87)'),
+    backgroundColor: new FormControl('rgba(255, 255, 255, 1)'),
+    // borderWidth: new FormControl(1),
+    // borderColor: new FormControl('rgba(0,0,0)')
 
-  })
+  });
+
 
   public id = Utility.generateShortUID();
   public lock: boolean = false;
@@ -47,7 +51,7 @@ export class FeatureGeneric {
   private startX = this.configs.x;
   private startY = this.configs.y;
 
-  constructor(public renderer: Renderer2, public messageService: MessageService, public cdr: ChangeDetectorRef, public dialog: MatDialog) {
+  constructor(public renderer: Renderer2, public messageService: MessageService, public dialog: MatDialog) {
     this.messageService.notification.subscribe(this.receivedNotification.bind(this));
     this.formGroup.valueChanges.subscribe((res: any) => {
       const lockMessage = new LockFeatureMessage(this.id, true);
@@ -67,7 +71,6 @@ export class FeatureGeneric {
     if (message instanceof ConfigFeatureMessage && message.instanceId === this.id) {
       this.configs = message.config;
       this.configChange.next({config: this.configs, id: this.id});
-      this.cdr.detectChanges();
     } else if (message instanceof LockFeatureMessage && message.instanceId === this.id) {
       this.lock = message.lock;
       if (this.lock) {
@@ -75,7 +78,7 @@ export class FeatureGeneric {
       } else {
         this.formGroup.enable({emitEvent: false});
       }
-      this.cdr.detectChanges();
+
     } else if (message instanceof DataFeatureMessage && message.instanceId === this.id) {
       this.formGroup.patchValue(message.data, {emitEvent: false});
       this.dataChange.next(this.formGroup.value);
@@ -143,27 +146,13 @@ export class FeatureGeneric {
     this.remove.emit();
   }
 
-  changeText(label: string) {
+  changeDataConfig(forms: Array<{ label: string, control: FormControl }>) {
     if (!this.lock) {
-      const control = this.formGroup.get(label);
-      const fontSizeControl = this.formGroup.get('fontSize');
-      const fontWeightControl = this.formGroup.get('bold');
-      const colorControl = this.formGroup.get('color')
+      this.dialog.open(ChangeTextDialogComponent, {
+        data: forms
+      }).afterClosed().subscribe(() => {
 
-      if (control) {
-
-        this.dialog.open(ChangeTextDialogComponent, {
-          data: {
-            control: control,
-            fontSizeControl,
-            fontWeightControl,
-            colorControl,
-            label
-          }
-        }).afterClosed().subscribe(() => {
-
-        })
-      }
+      })
     }
   }
 

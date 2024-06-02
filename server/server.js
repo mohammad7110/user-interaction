@@ -12,9 +12,10 @@ server.on('connection', (ws) => {
     synList(ws);
 
     ws.on('message', (packet) => {
-        const message = handlePackets(JSON.parse(packet).packet)
+
+        const message = handlePackets(JSON.parse(packet).packet, ws);
         if (message) {
-            handleMessage(message)
+            handleMessage(message);
         }
 
         server.clients.forEach(client => {
@@ -29,7 +30,8 @@ server.on('connection', (ws) => {
     });
 });
 
-function handlePackets(packet) {
+function handlePackets(packet, ws) {
+    sendAcknowledgement(packet, ws);
     if (packet.total === 1) {
         return JSON.parse(packet.content);
     } else {
@@ -71,13 +73,13 @@ function handleMessage(message) {
         if (index >= 0) {
             list.splice(index, 1);
         }
-    }else if(message.type === 'dataFeature'){
+    } else if (message.type === 'dataFeature') {
         list.forEach(item => {
             if (item.instanceId === message.instanceId) {
                 item.data = message.data;
             }
         })
-    }else if(message.type === 'lockFeature') {
+    } else if (message.type === 'lockFeature') {
         list.forEach(item => {
             if (item.instanceId === message.instanceId) {
                 item.lock = message.lock;
@@ -85,6 +87,17 @@ function handleMessage(message) {
         })
     }
 }
+
+function sendAcknowledgement(packet, ws) {
+    const acknowledgement = {
+        messageId: packet.messageId,
+        index: packet.index,
+        total: packet.total
+    }
+    const socket = {packet: acknowledgement, id: ''}
+    ws.send(JSON.stringify(socket));
+}
+
 
 function synList(ws) {
     const message = {

@@ -44,7 +44,6 @@ export class WebsocketService {
       return message;
     }else{
       return JSON.parse(event.data);
-      // console.log(JSON.parse(event.data));
     }
     return undefined;
   }

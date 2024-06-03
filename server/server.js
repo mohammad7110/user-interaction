@@ -31,7 +31,7 @@ server.on('connection', (ws) => {
 });
 
 function handlePackets(packet, ws) {
-    sendAcknowledgement(packet, ws);
+    // sendAcknowledgement(packet, ws);
     if (packet.total === 1) {
         return JSON.parse(packet.content);
     } else {

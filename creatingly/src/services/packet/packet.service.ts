@@ -15,7 +15,7 @@ export class PacketService {
   private notificationSubject = new Subject<Message>();
   public notification = this.notificationSubject.asObservable();
 
-  private sendingPackets: Packet[] = [];
+  // private sendingPackets: Packet[] = [];
 
   constructor(private websocketService: WebsocketService) {
     this.websocketService.notification.subscribe(this.receivedNotification.bind(this));
@@ -28,7 +28,7 @@ export class PacketService {
     if (messageChunks && messageChunks.length > 0) {
       for (let i = 0; i < messageChunks.length; i++) {
         const packet = new Packet(messageId, messageChunks[i], i + 1, messageChunks.length);
-        this.sendingPackets.push(packet);
+        // this.sendingPackets.push(packet);
         this.websocketService.sendPacket(packet);
       }
     }
@@ -63,11 +63,10 @@ export class PacketService {
 
       }
     } else {
-      const packetIndex = this.sendingPackets.findIndex(p => p.messageId === packet.messageId && p.index === packet.index);
-      if (packetIndex >= 0) {
-        this.sendingPackets.splice(packetIndex , 1);
-      }
-      // console.log(this.sendingPackets);
+      // const packetIndex = this.sendingPackets.findIndex(p => p.messageId === packet.messageId && p.index === packet.index);
+      // if (packetIndex >= 0) {
+      //   this.sendingPackets.splice(packetIndex , 1);
+      // }
     }
   }
 }

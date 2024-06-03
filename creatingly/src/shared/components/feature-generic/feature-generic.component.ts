@@ -11,6 +11,7 @@ import {debounceTime} from "rxjs";
 import {DataFeatureMessage} from "../../../models/messages/data-feature-message";
 import {MessageService} from "../../../services/message/message.service";
 import {Message} from "../../../models/messages/message";
+import {RemoveFeatureMessage} from "../../../models/messages/remove-feature-message";
 
 
 @Component({
@@ -19,8 +20,8 @@ import {Message} from "../../../models/messages/message";
   styleUrls: ['./feature-generic.component.scss']
 })
 export class FeatureGeneric {
-  @Output() configChange = new EventEmitter<{ config: FeatureConfig, id: string }>();
-  @Output() dataChange = new EventEmitter<any>();
+  // @Output() configChange = new EventEmitter<{ config: FeatureConfig, id: string }>();
+  // @Output() dataChange = new EventEmitter<any>();
 
   @Output() remove = new EventEmitter();
 
@@ -35,9 +36,6 @@ export class FeatureGeneric {
     bold: new FormControl(false),
     color: new FormControl('rgba(0, 0, 0, 0.87)'),
     backgroundColor: new FormControl('rgba(255, 255, 255, 1)'),
-    // borderWidth: new FormControl(1),
-    // borderColor: new FormControl('rgba(0,0,0)')
-
   });
 
 
@@ -56,10 +54,8 @@ export class FeatureGeneric {
     this.formGroup.valueChanges.subscribe((res: any) => {
       const lockMessage = new LockFeatureMessage(this.id, true);
       this.messageService.sendMessage(lockMessage);
-
       const dataMessage = new DataFeatureMessage(this.id, res);
       this.messageService.sendMessage(dataMessage)
-      this.dataChange.next(this.formGroup.value);
     })
     this.formGroup.valueChanges.pipe(debounceTime(1000)).subscribe(res => {
       const message = new LockFeatureMessage(this.id, false);
@@ -70,7 +66,6 @@ export class FeatureGeneric {
   private receivedNotification(message: Message): void {
     if (message instanceof ConfigFeatureMessage && message.instanceId === this.id) {
       this.configs = message.config;
-      this.configChange.next({config: this.configs, id: this.id});
     } else if (message instanceof LockFeatureMessage && message.instanceId === this.id) {
       this.lock = message.lock;
       if (this.lock) {
@@ -81,8 +76,8 @@ export class FeatureGeneric {
 
     } else if (message instanceof DataFeatureMessage && message.instanceId === this.id) {
       this.formGroup.patchValue(message.data, {emitEvent: false});
-      this.dataChange.next(this.formGroup.value);
-
+    } else if (message instanceof RemoveFeatureMessage && message.instanceId === this.id) {
+      this.remove.emit();
     }
   }
 
@@ -109,7 +104,6 @@ export class FeatureGeneric {
     event.source.reset();
     const message = new ConfigFeatureMessage(this.id, this.configs);
     this.messageService.sendMessage(message)
-    this.configChange.next({config: this.configs, id: this.id});
     const lockMessage = new LockFeatureMessage(this.id, false);
     this.messageService.sendMessage(lockMessage)
   }
@@ -122,7 +116,6 @@ export class FeatureGeneric {
     this.configs.y = event.top;
     const message = new ConfigFeatureMessage(this.id, this.configs);
     this.messageService.sendMessage(message)
-    this.configChange.next({config: this.configs, id: this.id});
   }
 
   onResizeEnd() {
@@ -143,6 +136,8 @@ export class FeatureGeneric {
   }
 
   removeFeature(): void {
+    const message = new RemoveFeatureMessage(this.id);
+    this.messageService.sendMessage(message);
     this.remove.emit();
   }
 

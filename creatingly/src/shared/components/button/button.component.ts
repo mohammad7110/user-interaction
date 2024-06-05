@@ -35,6 +35,10 @@ export class ButtonComponent extends FeatureGeneric {
       label: 'backgroundColor',
       control: this.formGroup.get('backgroundColor') as FormControl
     },
+    {
+      label:'radius',
+      control: this.formGroup.get('borderRadius') as FormControl
+    }
     // {
     //   label: 'border-width',
     //   control: this.formGroup.get('borderWidth') as FormControl

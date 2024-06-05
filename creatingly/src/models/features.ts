@@ -5,6 +5,7 @@ import {CalenderComponent} from "../shared/components/calender/calender.componen
 import {LabelComponent} from "../shared/components/label/label.component";
 import {Type} from "@angular/core";
 import {ButtonComponent} from "../shared/components/button/button.component";
+import {CardComponent} from "../shared/components/card/card.component";
 
 
 export interface FeatureConfig {
@@ -38,7 +39,8 @@ export const Features: Array<FeatureList> = [
     // class: 'text-input',
     component: TextInputComponent,
     componentId: '1',
-  }, {
+  },
+  {
     title: 'Text-Area',
     // class: 'text-area',
     component: TextAreaInputComponent,
@@ -67,6 +69,12 @@ export const Features: Array<FeatureList> = [
     // icon: 'fa-solid fa-image',
     component: ImageComponent,
     componentId: '6'
+  },
+  {
+    title: 'Card',
+    // icon: 'fa-solid fa-image',
+    component: CardComponent,
+    componentId: '7'
   }
 ]
 

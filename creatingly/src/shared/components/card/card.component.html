@@ -14,7 +14,6 @@
      [resizeMinWidth]="minWidth"
      [resizeMinHeight]="minHeight"
 
-
 >
   <button mat-icon-button class="drag-handler" [disabled]="lock" cdkDragHandle><i
     class="fa-regular fa-arrows-up-down-left-right"></i>
@@ -23,17 +22,14 @@
   </button>
   <img *ngIf="lock" src="assets/img/lock-solid.svg" class="feature__lock"/>
   <form [formGroup]="formGroup">
-    <textarea  formControlName="value" (dblclick)="changeDataConfig(dataConfigs)"
-              placeholder="{{formGroup.get('placeHolder')?.value}}"
-              [style.font-size.px]="formGroup.get('fontSize')?.value"
-               [style.font-weight]="formGroup.get('bold')?.value ? 'bold' : '100'"
-               [style.color]="formGroup.get('color')?.value"
-               [style.min-height.px]="minHeight"
-               [style.min-width.px]="minWidth"
-               [style.background-color]="formGroup.get('backgroundColor')?.value"
-               [style.border-radius.px]="formGroup.get('borderRadius')?.value"
+    <div (dblclick)="changeDataConfig(dataConfigs)" style="
+    width: 100%;
+    height: 100%;"
+         [style.background-color]="formGroup.get('backgroundColor')?.value"
+         [style.min-height.px]="minHeight"
+         [style.min-width.px]="minWidth"
+         [style.border-radius.px]="formGroup.get('borderRadius')?.value"
 
-
-    ></textarea>
+    ></div>
   </form>
 </div>

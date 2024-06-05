@@ -33,6 +33,10 @@ export class TextAreaInputComponent  extends FeatureGeneric{
     {
       label: 'backgroundColor',
       control: this.formGroup.get('backgroundColor') as FormControl
+    },
+    {
+      label:'radius',
+      control: this.formGroup.get('borderRadius') as FormControl
     }
   ]
   constructor(public override renderer: Renderer2, public override messageService: MessageService,

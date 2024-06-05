@@ -11,6 +11,7 @@ import {LabelComponent} from "./label/label.component";
 import {CalenderComponent} from "./calender/calender.component";
 import {ImageComponent} from "./image/image.component";
 import {ButtonComponent} from './button/button.component';
+import { CardComponent } from './card/card.component';
 
 
 @NgModule({
@@ -22,7 +23,8 @@ import {ButtonComponent} from './button/button.component';
     LabelComponent,
     CalenderComponent,
     ImageComponent,
-    ButtonComponent
+    ButtonComponent,
+    CardComponent
   ],
   imports: [
     CommonModule,
@@ -37,7 +39,8 @@ import {ButtonComponent} from './button/button.component';
     CalenderComponent,
     ImageComponent,
     FeatureGeneric,
-    ButtonComponent
+    ButtonComponent,
+    CardComponent
   ]
 })
 export class ComponentsModule {

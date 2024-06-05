@@ -8,7 +8,7 @@
       <label>{{item.label}}</label>
       <input [formControl]="item.control"/>
     </div>
-    <div *ngIf="item.label === 'font-size'" class="item">
+    <div *ngIf="item.label === 'font-size' || item.label === 'radius'" class="item">
       <label>{{item.label}}</label>
       <input [formControl]="item.control" type="number"/>
     </div>

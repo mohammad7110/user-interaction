@@ -12,16 +12,18 @@ export class MessageService {
   public notification = this.notificationSubject.asObservable();
 
   constructor(private packetService: PacketService) {
-    this.packetService.notification.subscribe((message) => {
-      const packetInstance = Utility.makeOriginMessageInstance(message);
-      if (packetInstance)
-        this.notificationSubject.next(packetInstance);
+    this.packetService.notification.subscribe(this.receivedNotification.bind(this));
 
-    })
   }
 
 
   sendMessage(message: Message): void {
     this.packetService.sendMessage(message);
+  }
+
+  private receivedNotification(message: Message): void {
+    const messageInstance = Utility.makeOriginMessageInstance(message);
+    if (messageInstance)
+      this.notificationSubject.next(messageInstance);
   }
 }

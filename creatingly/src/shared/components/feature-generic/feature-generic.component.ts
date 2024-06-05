@@ -33,6 +33,7 @@ export class FeatureGeneric {
     bold: new FormControl(false),
     color: new FormControl('rgba(0, 0, 0, 0.87)'),
     backgroundColor: new FormControl('rgba(255, 255, 255, 1)'),
+    borderRadius: new FormControl(4),
   });
 
   public id = Utility.generateShortUID();

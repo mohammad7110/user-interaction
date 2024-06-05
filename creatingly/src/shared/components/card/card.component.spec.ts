@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { LabelComponent } from './label.component';
+import { CardComponent } from './card.component';
 import {of} from "rxjs";
 import {ResizableDirective} from "../../directives/resizable/resizable.directive";
 import {ReactiveFormsModule} from "@angular/forms";
@@ -8,9 +8,9 @@ import {MessageService} from "../../../services/message/message.service";
 import {MatDialog} from "@angular/material/dialog";
 import {Renderer2} from "@angular/core";
 
-describe('LabelComponent', () => {
-  let component: LabelComponent;
-  let fixture: ComponentFixture<LabelComponent>;
+describe('CardComponent', () => {
+  let component: CardComponent;
+  let fixture: ComponentFixture<CardComponent>;
   const dialog = jasmine.createSpyObj('MatDialog', ['open']);
   dialog.open.and.returnValue({afterClosed: () => of()});
   // Mock MessageService
@@ -24,7 +24,7 @@ describe('LabelComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [LabelComponent, ResizableDirective],
+      declarations: [CardComponent, ResizableDirective],
       imports: [ReactiveFormsModule],
       providers: [
         {provide: MessageService, useValue: messageServiceMock}, // Provide the mock MessageService
@@ -36,7 +36,7 @@ describe('LabelComponent', () => {
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(LabelComponent);
+    fixture = TestBed.createComponent(CardComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
